@@ -119,6 +119,7 @@ Apache 2.0 license. Compatible to &gt;=NetBeans 7.2
 &lt;/p&gt;</description>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/markiewb/readmeinprojectview.git</developerConnection>
+        
+        <connection>scm:git:https://github.com/markiewb/readmeinprojectview.git</connection>
     </scm>
 </project>
