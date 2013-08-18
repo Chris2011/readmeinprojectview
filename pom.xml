@@ -109,6 +109,7 @@
 &lt;p&gt;
 This is pretty useful for projects which are hosted at github.com. Such projects use README.md by default
 &lt;/p&gt;
-
-Apache 2.0 license. Compatible to &gt;=NetBeans 7.2</description>
+&lt;p&gt;
+Apache 2.0 license. Compatible to &gt;=NetBeans 7.2
+&lt;/p&gt;</description>
 </project>
