@@ -18,7 +18,7 @@
     <organization>
         <name>Benno Markiewicz (benno.markiewicz@googlemail.com)</name>
     </organization>
-    <url>URL</url>
+    <url>https://github.com/markiewb/readmeinprojectview</url>
     <repositories>
         <!--
         Repository hosting NetBeans modules, especially APIs.
@@ -107,6 +107,8 @@
     </build>
     <description>Adds all files named like README.* to the project view. 
 &lt;p&gt;
-This is useful for project which are hosted at github.com. Such projects use README.md by default
-&lt;/p&gt;</description>
+This is pretty useful for projects which are hosted at github.com. Such projects use README.md by default
+&lt;/p&gt;
+
+Apache 2.0 license. Compatible to &gt;=NetBeans 7.2</description>
 </project>
