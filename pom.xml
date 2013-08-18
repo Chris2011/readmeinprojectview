@@ -111,7 +111,8 @@
     </build>
     <description>Adds all files named like README.* to the project view. 
 &lt;p&gt;
-This is pretty useful for projects which are hosted at github.com. Such projects use README.md by default
+This is pretty useful for projects which are hosted at github.com. Such projects use README.md by default.
+Note: Projects have to be reopened to enable the plugin (or do a IDE-restart)
 &lt;/p&gt;
 &lt;p&gt;
 Apache 2.0 license. Compatible to &gt;=NetBeans 7.2
