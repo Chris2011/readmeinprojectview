@@ -80,6 +80,10 @@
                 <extensions>true</extensions>
                 <configuration>
                     <netbeansInstallation>d:/Program Files/NetBeans7.3/</netbeansInstallation>
+                    <keystore>private/keystore</keystore>
+                    <keystorealias>myself</keystorealias>
+                    <licenseFile>LICENSE-2.0.txt</licenseFile>
+                    <licenseName>Apache 2.0</licenseName>
                 </configuration>
             </plugin>
 
