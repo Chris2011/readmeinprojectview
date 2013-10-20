@@ -62,7 +62,8 @@ public class ReadmeNodeFactory implements NodeFactory {
 
             @Override
             public boolean accept(File dir, String name) {
-                return name.toLowerCase().startsWith("readme.");
+                String lcName = name.toLowerCase();
+                return lcName.startsWith("readme.") || "readme".equals(lcName);
             }
         };
         File[] listFiles = dir.listFiles(f);
