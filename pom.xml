@@ -3,7 +3,7 @@
 
     <groupId>de.markiewb.netbeans.plugins</groupId>
     <artifactId>readmeinprojectview</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>nbm</packaging>
 
     <name>Display readme files in project view</name>
@@ -108,11 +108,16 @@
             </plugin>
         </plugins>
     </build>
-    <description>Adds all files named like README.* to the project view. 
+    <description>Adds all files named like README.* or README to the project view. 
 &lt;p&gt;
-This is pretty useful for projects which are hosted at github.com. Such projects use README.md by default.
+This is pretty useful for projects which are hosted at github.com or other git repository hosters. Such projects use README.md by default.
 Note: Projects have to be reopened to enable the plugin (or do a IDE-restart)
 &lt;/p&gt;
+&lt;p&gt;
+&lt;h2&gt;Updates in 1.1.0:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;[&lt;a href="https://github.com/markiewb/readmeinprojectview/pull/3"&gt;Issue 3&lt;/a&gt;]: Support for PHP project types and extension-less README files&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
 &lt;p&gt;
 Apache 2.0 license. Compatible to &gt;=NetBeans 7.2
 &lt;/p&gt;</description>
