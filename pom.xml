@@ -10,7 +10,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <netbeans.installation>d:/Program Files/NetBeans7.3/</netbeans.installation>
         <netbeans.run.params.ide />
         <netbeans.run.params>${netbeans.run.params.ide}</netbeans.run.params>
     </properties>
@@ -78,7 +77,7 @@
                 <version>3.10.1</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <netbeansInstallation>d:/Program Files/NetBeans7.3/</netbeansInstallation>
+                    <netbeansInstallation>${netbeans.installation}</netbeansInstallation>
                     <keystore>private/keystore</keystore>
                     <keystorealias>myself</keystorealias>
                     <licenseFile>LICENSE-2.0.txt</licenseFile>
@@ -114,10 +113,16 @@ This is pretty useful for projects which are hosted at github.com or other git r
 Note: Projects have to be reopened to enable the plugin (or do a IDE-restart)
 &lt;/p&gt;
 &lt;p&gt;
+&lt;h2&gt;Updates in 1.2.0:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;[&lt;a href="https://github.com/markiewb/readmeinprojectview/issues/5"&gt;Issue 5&lt;/a&gt;]: Fixed: Removed hardcoded paths in pom.xml&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;h2&gt;Updates in 1.1.0:&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;[&lt;a href="https://github.com/markiewb/readmeinprojectview/pull/3"&gt;Issue 3&lt;/a&gt;]: Support for PHP project types and extension-less README files&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;
+&lt;/ul&gt;
+&lt;/p&gt;
 &lt;p&gt;
 Apache 2.0 license. Compatible to &gt;=NetBeans 7.2
 &lt;/p&gt;</description>
