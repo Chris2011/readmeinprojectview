@@ -78,7 +78,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <netbeansInstallation>${netbeans.installation}</netbeansInstallation>
-                    <keystore>private/keystore</keystore>
+                    <keystore>../keystore</keystore>
                     <keystorealias>myself</keystorealias>
                     <licenseFile>LICENSE-2.0.txt</licenseFile>
                     <licenseName>Apache 2.0</licenseName>
