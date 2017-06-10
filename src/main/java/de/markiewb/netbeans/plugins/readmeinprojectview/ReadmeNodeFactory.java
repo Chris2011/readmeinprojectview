@@ -18,6 +18,7 @@ package de.markiewb.netbeans.plugins.readmeinprojectview;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
@@ -55,6 +56,17 @@ import org.openide.nodes.Node;
         position = 9000)
 public class ReadmeNodeFactory implements NodeFactory {
 
+    private final List<String> keywords = Arrays.asList(
+            ".gitlab-ci.yml",
+            "readme",
+            "authors",
+            "changelog",
+            "dockerfile",
+            "docker-compose.yml",
+            "docker-compose.yaml",
+            "contributing"
+    );
+
     @Override
     public NodeList createNodes(Project project) {
         File dir = FileUtil.toFile(project.getProjectDirectory());
@@ -63,7 +75,13 @@ public class ReadmeNodeFactory implements NodeFactory {
             @Override
             public boolean accept(File dir, String name) {
                 String lcName = name.toLowerCase();
-                return lcName.startsWith("readme.") || "readme".equals(lcName);
+                for (final String keyword : keywords) {
+                    if (lcName.startsWith(keyword + ".") || keyword.equals(lcName)) {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         };
         File[] listFiles = dir.listFiles(f);
