@@ -64,7 +64,8 @@ public class ReadmeNodeFactory implements NodeFactory {
             "dockerfile",
             "docker-compose.yml",
             "docker-compose.yaml",
-            "contributing"
+            "contributing",
+            "license"
     );
 
     @Override
