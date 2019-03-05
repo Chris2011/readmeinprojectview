@@ -3,7 +3,7 @@
 
     <groupId>de.markiewb.netbeans.plugins</groupId>
     <artifactId>readmeinprojectview</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.4.0</version>
     <packaging>nbm</packaging>
 
     <name>Display readme files in project view</name>
@@ -113,6 +113,10 @@ This is pretty useful for projects which are hosted at github.com or other git r
 Note: Projects have to be reopened to enable the plugin (or do a IDE-restart)
 &lt;/p&gt;
 &lt;p&gt;
+&lt;h2&gt;Updates in 1.4.0:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;[&lt;a href="https://github.com/Chris2011/readmeinprojectview/pull/11"&gt;Feature 11&lt;/a&gt;]: Added license file to the list (PR by &lt;a href="https://github.com/cassman42"&gt;cassman42&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;Updates in 1.3.0:&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;[&lt;a href="https://github.com/markiewb/readmeinprojectview/pull/6"&gt;Feature 6&lt;/a&gt;]: Add more file (like docker, authors, changelog...) (PR by &lt;a href="https://github.com/thomas-mc-work"&gt;thomas-mc-work&lt;/a&gt;)&lt;/li&gt;
