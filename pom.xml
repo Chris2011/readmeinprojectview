@@ -3,7 +3,7 @@
 
     <groupId>de.markiewb.netbeans.plugins</groupId>
     <artifactId>readmeinprojectview</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0-SNAPSHOT</version>
     <packaging>nbm</packaging>
 
     <name>Display readme files in project view</name>
