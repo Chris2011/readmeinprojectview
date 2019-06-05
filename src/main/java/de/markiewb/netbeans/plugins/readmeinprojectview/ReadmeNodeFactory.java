@@ -18,8 +18,10 @@ package de.markiewb.netbeans.plugins.readmeinprojectview;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
+import java.util.prefs.Preferences;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
 import org.netbeans.spi.project.ui.support.NodeFactorySupport;
@@ -29,6 +31,7 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Node;
+import org.openide.util.NbPreferences;
 
 @NodeFactory.Registration(projectType = {
     "org-netbeans-modules-ant-freeform",
@@ -56,27 +59,37 @@ import org.openide.nodes.Node;
         position = 9000)
 public class ReadmeNodeFactory implements NodeFactory {
 
-    private final List<String> keywords = Arrays.asList(
-            ".gitlab-ci.yml",
-            "readme",
-            "authors",
-            "changelog",
-            "dockerfile",
-            "docker-compose.yml",
-            "docker-compose.yaml",
-            "contributing",
-            "license"
-    );
+    public static final String DEFAULT_FILENAMES = ""
+            + ".gitlab-ci.yml\n"
+            + "readme\n"
+            + "authors\n"
+            + "changelog\n"
+            + "dockerfile\n"
+            + "docker-compose.yml\n"
+            + "docker-compose.yaml\n"
+            + "contributing\n"
+            + "license\n";
+    static final String KEY_FILENAMES = "filenames";
+    private String[] filenames = getFilenames();
 
     @Override
-    public NodeList createNodes(Project project) {
+    public NodeList<?> createNodes(Project project) {
+        final Preferences preferences = NbPreferences.forModule(DisplayReadmeFilesPanel.class);
+        preferences.addPreferenceChangeListener(new PreferenceChangeListener() {
+            @Override
+            public void preferenceChange(PreferenceChangeEvent event) {
+                if (event.getKey().equals(KEY_FILENAMES)) {
+                    filenames = getFilenames();
+                }
+            }
+        });
         File dir = FileUtil.toFile(project.getProjectDirectory());
         FilenameFilter f = new FilenameFilter() {
 
             @Override
             public boolean accept(File dir, String name) {
                 String lcName = name.toLowerCase();
-                for (final String keyword : keywords) {
+                for (final String keyword : filenames) {
                     if (lcName.startsWith(keyword + ".") || keyword.equals(lcName)) {
                         return true;
                     }
@@ -110,4 +123,9 @@ public class ReadmeNodeFactory implements NodeFactory {
 
     }
 
+    private static String[] getFilenames() {
+        return NbPreferences.forModule(DisplayReadmeFilesPanel.class)
+                .get(KEY_FILENAMES, DEFAULT_FILENAMES)
+                .split("\n");
+    }
 }
