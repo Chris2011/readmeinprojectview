@@ -15,22 +15,23 @@
  */
 package de.markiewb.netbeans.plugins.readmeinprojectview;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
+import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
-import org.netbeans.spi.project.ui.support.NodeFactorySupport;
 import org.netbeans.spi.project.ui.support.NodeList;
+import org.openide.filesystems.FileChangeAdapter;
+import org.openide.filesystems.FileEvent;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
+import org.openide.filesystems.FileRenameEvent;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Node;
+import org.openide.util.ChangeSupport;
 import org.openide.util.NbPreferences;
 
 @NodeFactory.Registration(projectType = {
@@ -70,60 +71,101 @@ public class ReadmeNodeFactory implements NodeFactory {
             + "contributing\n"
             + "license\n";
     static final String KEY_FILENAMES = "filenames";
-    private String[] filenames = getFilenames();
 
     @Override
     public NodeList<?> createNodes(Project project) {
-        final Preferences preferences = NbPreferences.forModule(DisplayReadmeFilesPanel.class);
-        preferences.addPreferenceChangeListener(new PreferenceChangeListener() {
-            @Override
-            public void preferenceChange(PreferenceChangeEvent event) {
-                if (event.getKey().equals(KEY_FILENAMES)) {
-                    filenames = getFilenames();
-                }
-            }
-        });
-        File dir = FileUtil.toFile(project.getProjectDirectory());
-        FilenameFilter f = new FilenameFilter() {
-
-            @Override
-            public boolean accept(File dir, String name) {
-                String lcName = name.toLowerCase();
-                for (final String keyword : filenames) {
-                    if (lcName.startsWith(keyword + ".") || keyword.equals(lcName)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        };
-        File[] listFiles = dir.listFiles(f);
-        if (null == listFiles || listFiles.length == 0) {
-            return NodeFactorySupport.fixedNodeList();
-        }
-
-        List<Node> nodes = new ArrayList<Node>(3);
-        for (File file : listFiles) {
-            FileObject fo = FileUtil.toFileObject(FileUtil.normalizeFile(file));
-            try {
-                DataObject find = DataObject.find(fo);
-                if (find != null) {
-                    Node cloneNode = find.getNodeDelegate().cloneNode();
-                    if (null != cloneNode) {
-                        nodes.add(cloneNode);
-                    }
-                }
-            } catch (DataObjectNotFoundException ex) {
-//                Exceptions.printStackTrace(ex);
-            }
-        }
-
-        return NodeFactorySupport.fixedNodeList(nodes.toArray(new Node[nodes.size()]));
-
+        return new ReadmeNodeList(project);
     }
 
-    private static String[] getFilenames() {
+    private static final class ReadmeNodeList implements NodeList<Node> {
+
+        private final Project project;
+        private final ChangeSupport cs;
+
+        ReadmeNodeList(Project project) {
+            super();
+            this.project = project;
+            this.cs = new ChangeSupport(this);
+            // Reload node list on property change.
+            final Preferences preferences = NbPreferences.forModule(DisplayReadmeFilesPanel.class);
+            preferences.addPreferenceChangeListener(new PreferenceChangeListener() {
+                @Override
+                public void preferenceChange(PreferenceChangeEvent event) {
+                    if (event.getKey().equals(KEY_FILENAMES)) {
+                        cs.fireChange();
+                    }
+                }
+            });
+            // Reload node list on project directory content change
+            project.getProjectDirectory().addFileChangeListener(new FileChangeAdapter() {
+                @Override
+                public void fileDeleted(FileEvent fe) {
+                    cs.fireChange();
+                }
+
+                @Override
+                public void fileDataCreated(FileEvent fe) {
+                    cs.fireChange();
+                }
+
+                @Override
+                public void fileRenamed(FileRenameEvent fe) {
+                    cs.fireChange();
+                }
+            });
+        }
+
+        @Override
+        public Node node(Node key) {
+            return key;
+        }
+
+        @Override
+        public List<Node> keys() {
+            // Called only on first open and on change, no cache needed.
+            final List<Node> keys = new ArrayList<Node>(0);
+            final FileObject directory = project.getProjectDirectory();
+            final String[] filenameFilters = getFilenameFilters();
+            for (FileObject child : directory.getChildren()) {
+                final String lcName = child.getName().toLowerCase();
+                for (final String filenameFilter : filenameFilters) {
+                    if (lcName.startsWith(filenameFilter + ".") || filenameFilter.equals(lcName)) {
+                        keys.add(getFileNode(child));
+                    }
+                }
+            }
+            return keys;
+        }
+
+        @Override
+        public void addChangeListener(ChangeListener l) {
+            cs.addChangeListener(l);
+        }
+
+        @Override
+        public void removeChangeListener(ChangeListener l) {
+            cs.removeChangeListener(l);
+        }
+
+        @Override
+        public void addNotify() {
+        }
+
+        @Override
+        public void removeNotify() {
+        }
+
+        private static Node getFileNode(FileObject child) {
+            try {
+                final DataObject find = DataObject.find(child); // Never null
+                return find.getNodeDelegate().cloneNode(); // Never null
+            } catch (DataObjectNotFoundException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+    }
+
+    private static String[] getFilenameFilters() {
         return NbPreferences.forModule(DisplayReadmeFilesPanel.class)
                 .get(KEY_FILENAMES, DEFAULT_FILENAMES)
                 .split("\n");
