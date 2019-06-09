@@ -12,7 +12,7 @@ Apache 2.0 license.
 See [Changelog](./Changelog.md) for all information 
 
 ## NetBeans Compatibility
-Version < 1.5.0 is compatible to NetBeans 7.2 until NetBeans 8.2
-Version >= 1.5.0 is compatible to Apache NetBeans >= 9.0
-
+Version < 1.5.0 is compatible to NetBeans 7.2 until NetBeans 8.2  
+Version >= 1.5.0 is compatible to Apache NetBeans >= 9.0  
+  
 Plugin is available at http://plugins.netbeans.org/plugin/50171/
