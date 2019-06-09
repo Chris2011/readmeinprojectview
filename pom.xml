@@ -1,18 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>de.markiewb.netbeans.plugins</groupId>
     <artifactId>readmeinprojectview</artifactId>
     <version>1.5.0-SNAPSHOT</version>
     <packaging>nbm</packaging>
-
-    <name>Display readme files in project view</name>
+    <name>Display readme files in project view (and many more)</name>
 
     <properties>
+        <project.author>Chris2011</project.author>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.run.params.ide />
         <netbeans.run.params>${netbeans.run.params.ide}</netbeans.run.params>
+        <netbeans.version>RELEASE90</netbeans.version>
     </properties>
+    
     <organization>
         <name>Benno Markiewicz (benno.markiewicz@googlemail.com)</name>
     </organization>
@@ -37,55 +38,60 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-annotations-common</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-projectuiapi</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-projectapi</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <artifactId>org-openide-filesystems</artifactId>
             <groupId>org.netbeans.api</groupId>
             <type>jar</type>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <artifactId>org-openide-nodes</artifactId>
             <groupId>org.netbeans.api</groupId>
             <type>jar</type>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-loaders</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util-lookup</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-options-api</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>
-            <version>RELEASE72</version>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-ui</artifactId>
+            <version>${netbeans.version}</version>
         </dependency>
     </dependencies>
 
@@ -93,13 +99,43 @@
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
+                <artifactId>keytool-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generateKeyPair</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <keystore>keystore</keystore>
+                    <alias>${project.author}</alias>
+                    <storepass>${project.artifactId}</storepass>
+                    <keypass>${project.artifactId}</keypass>
+                    <dname>cn=Unknown, ou=Unknown, L=Leipzig, ST=Saxony, o=Unknown, c=DE</dname>
+                    <sigalg>SHA1withDSA</sigalg>
+                    <ext />
+                    <validity>36500</validity>
+                    <keyalg>DSA</keyalg>
+                    <keysize>1024</keysize>
+                    <skipIfExist>true</skipIfExist>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
-                <version>3.13.2</version>
+                <version>4.1</version>
                 <extensions>true</extensions>
                 <configuration>
                     <netbeansInstallation>${netbeans.installation}</netbeansInstallation>
-                    <keystore>../keystore</keystore>
-                    <keystorealias>myself</keystorealias>
+                    <keystore>keystore</keystore>
+                    <keystorealias>${project.author}</keystorealias>
+                    <keystorepassword>${project.artifactId}</keystorepassword>
+                    <homePageUrl>https://github.com/markiewb/readmeinprojectview</homePageUrl>
+                    <verifyIntegrity>false</verifyIntegrity>
+                    <useOSGiDependencies>true</useOSGiDependencies>
                     <licenseFile>LICENSE-2.0.txt</licenseFile>
                     <licenseName>Apache 2.0</licenseName>
                 </configuration>
@@ -123,40 +159,13 @@
                 <configuration>
                     <!-- to have the jar plugin pickup the nbm generated manifest -->
                     <useDefaultManifestFile>true</useDefaultManifestFile>
+                    <verifyRuntime>skip</verifyRuntime>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    <description>Adds files named like README, docker, changelog to the project view.
-&lt;p&gt;
-This is pretty useful for projects which are hosted at github.com or other git repository hosters. Such projects use README.md by default.
-Note: Projects have to be reopened to enable the plugin (or do a IDE-restart)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;h2&gt;Updates in 1.4.0:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;[&lt;a href="https://github.com/Chris2011/readmeinprojectview/pull/11"&gt;Feature 11&lt;/a&gt;]: Added license file to the list (PR by &lt;a href="https://github.com/cassman42"&gt;cassman42&lt;/a&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;Updates in 1.3.0:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;[&lt;a href="https://github.com/markiewb/readmeinprojectview/pull/6"&gt;Feature 6&lt;/a&gt;]: Add more file (like docker, authors, changelog...) (PR by &lt;a href="https://github.com/thomas-mc-work"&gt;thomas-mc-work&lt;/a&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;Updates in 1.2.0:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;[&lt;a href="https://github.com/markiewb/readmeinprojectview/issues/5"&gt;Issue 5&lt;/a&gt;]: Fixed: Removed hardcoded paths in pom.xml&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;Updates in 1.1.0:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;[&lt;a href="https://github.com/markiewb/readmeinprojectview/pull/3"&gt;Issue 3&lt;/a&gt;]: Support for PHP project types and extension-less README files&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/p&gt;
-&lt;p&gt;
-Apache 2.0 license. Compatible to &gt;=NetBeans 7.2
-&lt;/p&gt;</description>
-
+    <description>See the &lt;a href="https://github.com/Chris2011/readmeinprojectview/Changelog.md&gt;changelog&lt;/a&gt; for all information.</description>
     <scm>
-
         <connection>scm:git:https://github.com/markiewb/readmeinprojectview.git</connection>
     </scm>
 </project>
