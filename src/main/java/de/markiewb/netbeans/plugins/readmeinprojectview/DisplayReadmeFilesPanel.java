@@ -58,6 +58,7 @@ final class DisplayReadmeFilesPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         textareaFilenames = new javax.swing.JTextArea();
         labelDescription = new javax.swing.JLabel();
+        jButtonDefault = new javax.swing.JButton();
 
         textareaFilenames.setColumns(20);
         textareaFilenames.setRows(5);
@@ -68,6 +69,13 @@ final class DisplayReadmeFilesPanel extends javax.swing.JPanel {
         labelDescription.setFocusable(false);
         labelDescription.setRequestFocusEnabled(false);
 
+        jButtonDefault.setText(org.openide.util.NbBundle.getMessage(DisplayReadmeFilesPanel.class, "DisplayReadmeFilesPanel.jButtonDefault.text")); // NOI18N
+        jButtonDefault.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDefaultActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,25 +84,37 @@ final class DisplayReadmeFilesPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(labelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 57, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDefault)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonDefault))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         labelDescription.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(DisplayReadmeFilesPanel.class, "DisplayReadmeFilesPanel.labelDescription.AccessibleContext.accessibleName")); // NOI18N
         labelDescription.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(DisplayReadmeFilesPanel.class, "DisplayReadmeFilesPanel.labelDescription.AccessibleContext.accessibleDescription")); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefaultActionPerformed
+        textareaFilenames.setText(ReadmeNodeFactory.DEFAULT_FILENAMES);
+    }//GEN-LAST:event_jButtonDefaultActionPerformed
 
     void load() {
         final String filenames = NbPreferences.forModule(DisplayReadmeFilesPanel.class).get(ReadmeNodeFactory.KEY_FILENAMES, ReadmeNodeFactory.DEFAULT_FILENAMES);
@@ -109,9 +129,6 @@ final class DisplayReadmeFilesPanel extends javax.swing.JPanel {
                 filenames.append(filenameClean).append('\n');
             }
         }
-        if (filenames.length() == 0) {
-            filenames.append(ReadmeNodeFactory.DEFAULT_FILENAMES);
-        }
         NbPreferences.forModule(DisplayReadmeFilesPanel.class).put(ReadmeNodeFactory.KEY_FILENAMES, filenames.toString());
     }
 
@@ -120,6 +137,7 @@ final class DisplayReadmeFilesPanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDefault;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelDescription;
     private javax.swing.JTextArea textareaFilenames;
