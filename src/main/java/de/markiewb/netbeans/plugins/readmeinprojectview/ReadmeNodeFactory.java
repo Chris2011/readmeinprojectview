@@ -168,6 +168,7 @@ public class ReadmeNodeFactory implements NodeFactory {
     private static String[] getFilenameFilters() {
         return NbPreferences.forModule(DisplayReadmeFilesPanel.class)
                 .get(KEY_FILENAMES, DEFAULT_FILENAMES)
+                .toLowerCase()
                 .split("\n");
     }
 }
