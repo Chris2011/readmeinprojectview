@@ -62,7 +62,11 @@ public class ReadmeNodeFactory implements NodeFactory {
 
     public static final String DEFAULT_FILENAMES = ""
             + ".gitlab-ci.yml\n"
+            + ".gitignore\n"
             + "readme\n"
+            + "README.md\n"
+            + "CHANGELOG.md\n"
+            + "Changelog.md\n"
             + "authors\n"
             + "changelog\n"
             + "dockerfile\n"
