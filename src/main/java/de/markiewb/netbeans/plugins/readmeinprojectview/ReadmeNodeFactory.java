@@ -60,15 +60,16 @@ import org.openide.util.NbPreferences;
         position = 9000)
 public class ReadmeNodeFactory implements NodeFactory {
 
+    /* All considered file names will be converted to lower case before the comparison */
     public static final String DEFAULT_FILENAMES = ""
             + ".gitlab-ci.yml\n"
             + ".gitignore\n"
             + "readme\n"
-            + "README.md\n"
-            + "CHANGELOG.md\n"
-            + "Changelog.md\n"
-            + "authors\n"
+            + "readme.md\n"
+            + "readme.rst\n"
+            + "changelog.md\n"
             + "changelog\n"
+            + "authors\n"
             + "dockerfile\n"
             + "docker-compose.yml\n"
             + "docker-compose.yaml\n"
